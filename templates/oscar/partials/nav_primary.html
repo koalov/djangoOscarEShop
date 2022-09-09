@@ -52,12 +52,53 @@
                             </div>
                         </li>
                    {% endblock %}
+                {% block nav_extra %}
+                    {% include "oscar/partials/search.html" %}
+                {% endblock %}
                </ul>
             {% endblock %}
-
-            {% block nav_extra %}
-                {% include "oscar/partials/search.html" %}
+        <ul class="navbar-nav ml-md-auto d-md-flex">
+            {% if user.is_authenticated %}
+            {% block nav_account_navbar_authenticated %}
+                <li class="nav-item mr-2">
+                    {% if num_unread_notifications > 0 %}
+                        {# If user has new notifications - we change account link to go to inbox #}
+                        <a href="{% url 'customer:notifications-inbox' %}" class="nav-link mt-2 mt-lg-0">
+                            <i class="far fa-user mr-2"></i>
+                            {% trans "Аккаунт" %}
+                            <span class="badge badge-warning">{{ num_unread_notifications }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'customer:summary' %}" class="nav-link mt-2 mt-lg-0">
+                            <i class="far fa-user mr-2"></i>
+                            {% trans "Аккаунт" %}
+                        </a>
+                    {% endif %}
+                </li>
+                {% if user.is_staff or perms.partner.dashboard_access %}
+                    <li class="nav-item mr-2">
+                        <a href="{% url 'dashboard:index' %}" class="nav-link">
+                            <i class="fas fa-list-ul mr-2"></i>
+                            {% trans "Дошка" %}
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="nav-item mr-2">
+                    <a id="logout_link" href="{% url 'customer:logout' %}" class="nav-link">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        {% trans "Вийти" %}
+                    </a>
+                </li>
             {% endblock %}
+            {% else %}
+                <li class="nav-item mr-2">
+                    <a id="login_link" href="{% url 'customer:login' %}" class="nav-link">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        {% trans "Увійти або зареєструватися" %}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
         </div>
     {% endblock %}
 </nav>

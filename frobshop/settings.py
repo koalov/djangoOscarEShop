@@ -171,7 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 
@@ -189,3 +189,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+OSCAR_CURRENCY_FORMAT = {
+    'USD': {
+        'currency_digits': False,
+        'format_type': "accounting",
+    },
+    'UAH': {
+        'format': '#,##0U+20B4',
+    }
+}
